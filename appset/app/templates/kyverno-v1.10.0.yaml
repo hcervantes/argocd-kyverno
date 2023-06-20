@@ -1,4 +1,15 @@
-# Source: kyverno/templates/tests/admission-controller-liveness.yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/component: kyverno
+    app: kyverno
+    app.kubernetes.io/name: kyverno
+    app.kubernetes.io/part-of: kyverno
+    app.kubernetes.io/version: v1.10.0
+  name: kyverno
+---
 apiVersion: v1
 kind: Pod
 metadata:
