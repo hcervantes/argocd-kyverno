@@ -16,7 +16,7 @@ spec:
       project: kyverno
       source:
         repoURL: https://github.com/andregri/example-guestbook.git
-        targetRevision: HEAD
+        targetRevision: main
         path: "appset/app"
       destination:
         server: https://kubernetes.default.svc
