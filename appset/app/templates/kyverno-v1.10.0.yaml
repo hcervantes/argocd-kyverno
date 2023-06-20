@@ -1,10 +1,3 @@
-NAME: kyverno
-LAST DEPLOYED: Fri Jun 16 17:30:15 2023
-NAMESPACE: kyverno
-STATUS: pending-install
-REVISION: 1
-HOOKS:
----
 # Source: kyverno/templates/tests/admission-controller-liveness.yaml
 apiVersion: v1
 kind: Pod
