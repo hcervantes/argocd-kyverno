@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: appset-kyverno
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/andregri/example-guestbook.git
+      revision: HEAD
+      files:
+      - path: "appset/config/**/config.json"
+  template:
+    metadata:
+      name: 'kyverno-{{ env }}'
+    spec:
+      project: kyverno
+      source:
+        repoURL: https://github.com/andregri/example-guestbook.git
+        targetRevision: HEAD
+        path: "appset/app"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd
