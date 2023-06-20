@@ -36149,20 +36149,3 @@ spec:
               seccompProfile:
                 type: RuntimeDefault
           restartPolicy: OnFailure
-
-NOTES:
-Chart version: 3.0.1
-Kyverno version: v1.10.0
-
-Thank you for installing kyverno! Your release is named kyverno.
-
-The following components have been installed in your cluster:
-- CRDs
-- Admission controller
-- Reports controller
-- Cleanup controller
-- Background controller
-
-
-
-💡 Note: There is a trade-off when deciding which approach to take regarding Namespace exclusions. Please see the documentation at https://kyverno.io/docs/installation/#security-vs-operability to understand the risks.
