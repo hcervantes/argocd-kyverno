@@ -1,0 +1,56 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: inject-sidecar
+  annotations:
+    policies.kyverno.io/title: Inject Sidecar Container
+    policies.kyverno.io/category: Sample
+    policies.kyverno.io/subject: Pod,Volume
+    policies.kyverno.io/minversion: 1.6.0
+    policies.kyverno.io/description: >-
+      The sidecar pattern is very common in Kubernetes whereby other applications can
+      insert components via tacit modification of a submitted resource. This is, for example,
+      often how service meshes and secrets applications are able to function transparently.
+      This policy injects a sidecar container, initContainer, and volume into Pods that match
+      an annotation called `vault.hashicorp.com/agent-inject: true`.
+spec:
+  rules:
+    - name: inject-sidecar
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      exclude:
+        resources:
+          kinds:
+            - Pod
+          namespaces:
+            - "openshift-*"
+      mutate:
+        patchStrategicMerge:
+          spec:
+            containers:
+              - (name): "*"
+                env:
+                  - name: LD_PRELOAD
+                    value: /opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so
+                  - name: DT_NETWORK_ZONE
+                    value: default
+                volumeMounts:
+                  - mountPath: /opt/dynatrace/oneagent
+                    name: oneagent
+            initContainers:
+              - name: vault-agent-init
+                image: quay.io/libpod/alpine:latest
+                command: ["echo", "hello"]
+                imagePullPolicy: IfNotPresent
+                volumeMounts:
+                  - mountPath: /vault/secrets
+                    name: vault-secret
+            volumes:
+              - name: vault-secret
+                emptyDir:
+                  medium: Memory
+              - name: oneagent
+                emptyDir: {}
