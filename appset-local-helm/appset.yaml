@@ -9,7 +9,7 @@ spec:
       repoURL: https://github.com/andregri/example-guestbook.git
       revision: HEAD
       files:
-      - path: "appset-helm/config/**/config.json"
+      - path: "appset-local-helm/config/**/config.json"
   template:
     metadata:
       name: 'kyverno-{{ env }}'
@@ -18,7 +18,7 @@ spec:
       source:
         repoURL: https://github.com/andregri/example-guestbook.git
         targetRevision: main
-        path: "appset-helm/app"
+        path: "appset-local-helm/app"
       ignoreDifferences:
       - group: rbac.authorization.k8s.io
         kind: ClusterRole
