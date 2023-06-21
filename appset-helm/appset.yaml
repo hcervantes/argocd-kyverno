@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: appset-kyverno
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/andregri/example-guestbook.git
+      revision: HEAD
+      files:
+      - path: "appset-helm/config/**/config.json"
+  template:
+    metadata:
+      name: 'kyverno-{{ env }}'
+    spec:
+      project: kyverno
+      source:
+        repoURL: https://github.com/andregri/example-guestbook.git
+        targetRevision: main
+        path: "appset-helm/app"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - Replace=true
