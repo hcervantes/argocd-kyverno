@@ -2,10 +2,11 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: appset-kyverno
+  namespace: argocd
 spec:
   generators:
   - git:
-      repoURL: https://github.com/andregri/example-guestbook.git
+      repoURL: https://github.com/andregri/argocd-kyverno.git
       revision: HEAD
       files:
       - path: "appset/config/**/config.json"
@@ -13,11 +14,16 @@ spec:
     metadata:
       name: 'kyverno-{{ env }}'
     spec:
-      project: kyverno
+      project: default
       source:
-        repoURL: https://github.com/andregri/example-guestbook.git
+        repoURL: https://github.com/andregri/argocd-kyverno.git
         targetRevision: main
         path: "appset/app"
+      ignoreDifferences:
+      - group: rbac.authorization.k8s.io
+        kind: ClusterRole
+        jsonPointers:
+          - /rules
       destination:
         server: https://kubernetes.default.svc
         namespace: kyverno
