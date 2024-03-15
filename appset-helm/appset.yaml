@@ -6,7 +6,7 @@ metadata:
 spec:
   generators:
   - git:
-      repoURL: https://github.com/andregri/argocd-kyverno.git
+      repoURL: https://github.com/hcervantes/argocd-kyverno.git
       revision: HEAD
       files:
       - path: "appset-helm/config/**/config.json"
@@ -16,7 +16,7 @@ spec:
     spec:
       project: kyverno
       source:
-        repoURL: https://github.com/andregri/argocd-kyverno.git
+        repoURL: https://github.com/hcervantes/argocd-kyverno.git
         targetRevision: main
         path: "appset-helm/app"
       ignoreDifferences:
